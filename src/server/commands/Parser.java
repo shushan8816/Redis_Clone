@@ -2,10 +2,10 @@ package server.commands;
 
 import java.util.Locale;
 
-public class ParseCommand {
+public class Parser {
     public final String command;
 
-    public ParseCommand(String command) {
+    public Parser(String command) {
 
         this.command = command;
     }
