@@ -1,7 +1,6 @@
 package server;
 
-import server.commands.Command;
-import server.commands.ParseCommand;
+import server.commands.Parser;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -10,18 +9,17 @@ import java.net.Socket;
 
 public class Server implements Runnable {
 
-    private int port = 8000;
-    private Socket socket = null;
-    private ServerSocket serverSocket = null;
-    private BufferedInputStream bis = null;
-    private DataInputStream dis = null;
-    private Thread thread = null;
+    private Socket socket ;
+    private ServerSocket serverSocket ;
+    private BufferedInputStream bis ;
+    private DataInputStream dis ;
+    private Thread thread ;
 
-    public Server() {
+    public Server(int port) {
         try {
             serverSocket = new ServerSocket(port);
             System.out.println("Server started on port " + serverSocket.getLocalPort() + "...");
-            System.out.println("Waiting for client...");
+            System.out.println("Waiting for a client...");
             thread = new Thread(this);
             thread.start();
         } catch (IOException e) {
@@ -43,7 +41,7 @@ public class Server implements Runnable {
                     try {
                         command = dis.readUTF();
                         String response;
-                        response = new ParseCommand(command).parseCommand();
+                        response = new Parser(command).parseCommand();
                         if (command.equals("exit")) {
                             break;
                         }
@@ -62,8 +60,7 @@ public class Server implements Runnable {
     }
 
     public static void main(String args[]) {
-        Server server = new Server();
-
+         new Server(5000);
     }
 }
 

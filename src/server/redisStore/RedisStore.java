@@ -14,7 +14,7 @@ public class RedisStore implements StoreOptions {
     }
 
     @Override
-    public String get(String key) {
+    public  String get(String key) {
         return string.get(key);
     }
 

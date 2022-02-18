@@ -15,11 +15,7 @@ public class Command {
         this.commandPattern = commandPattern;
     }
 
-    public static CommandPattern getCommandPattern() {
-        return commandPattern;
-    }
-
-    public static String execCommand(String[] commands) {
+    public String execCommand(String[] commands) {
 
         return commandPattern.execute(commands);
     }
