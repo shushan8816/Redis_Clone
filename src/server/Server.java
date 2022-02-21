@@ -1,5 +1,6 @@
 package server;
 
+import server.Exeptions.BadRequestException;
 import server.commands.Parser;
 
 import java.io.*;
@@ -9,11 +10,8 @@ import java.net.Socket;
 
 public class Server implements Runnable {
 
-    private Socket socket ;
-    private ServerSocket serverSocket ;
-    private BufferedInputStream bis ;
-    private DataInputStream dis ;
-    private Thread thread ;
+    private ServerSocket serverSocket;
+    private Thread thread;
 
     public Server(int port) {
         try {
@@ -31,21 +29,22 @@ public class Server implements Runnable {
     public void run() {
         try {
             while (thread != null) {
-                socket = serverSocket.accept();
+                Socket socket = serverSocket.accept();
                 System.out.println("Client " + socket.getRemoteSocketAddress() + " connected to server...");
-                bis = new BufferedInputStream(socket.getInputStream());
-                dis = new DataInputStream(bis);
+                BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
+                DataInputStream dis = new DataInputStream(bis);
 
                 String command = "";
                 while (true) {
                     try {
                         command = dis.readUTF();
-                        String response;
-                        response = new Parser(command).parseCommand();
+                        String response = new Parser(command).parseCommand();
                         if (command.equals("exit")) {
                             break;
                         }
                         System.out.println("Client [" + socket.getRemoteSocketAddress() + "] : " + response);
+                    } catch (BadRequestException e) {
+                        e.printStackTrace();
                     } catch (IOException e) {
                         break;
                     }
@@ -59,8 +58,8 @@ public class Server implements Runnable {
         }
     }
 
-    public static void main(String args[]) {
-         new Server(5000);
+    public static void main(String[] args) {
+        new Server(5000);
     }
 }
 
