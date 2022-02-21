@@ -1,18 +1,22 @@
 package server.commands;
 
-import java.util.Locale;
+import server.Exeptions.BadRequestException;
+import server.Utils.CommandUtil;
 
-public class Parser {
-    public final String command;
 
-    public Parser(String command) {
+public record Parser(String command) {
 
-        this.command = command;
-    }
-
-    public String parseCommand() {
+    public String parseCommand() throws BadRequestException {
         String[] newCommand = command.split(" ");
-        Command command = new Command(CommandPattern.valueOf(newCommand[0].toUpperCase(Locale.ROOT)));
-        return command.execCommand(newCommand);
+        if (newCommand.length < 3) throw new BadRequestException("Wrong command.");
+        try {
+            CommandPattern commandPattern = CommandPattern.valueOf(newCommand[0].toUpperCase());
+            Command command = new Command(commandPattern);
+            String[] keyValues = CommandUtil.removeFirstElementOfStringArray(newCommand);
+            return command.execCommand(keyValues);
+        } catch (IllegalArgumentException e) {
+
+            throw new BadRequestException("Command " + newCommand[0].toUpperCase() + " doesn't exist.");
+        }
     }
 }

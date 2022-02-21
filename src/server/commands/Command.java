@@ -1,5 +1,7 @@
 package server.commands;
 
+import server.Exeptions.BadRequestException;
+
 public class Command {
 
     private static CommandPattern commandPattern;
@@ -7,15 +9,10 @@ public class Command {
 
     public Command(CommandPattern commandPattern) {
 
-        this.commandPattern = commandPattern;
+        Command.commandPattern = commandPattern;
     }
 
-    public void setCommandPattern(CommandPattern commandPattern) {
-
-        this.commandPattern = commandPattern;
-    }
-
-    public String execCommand(String[] commands) {
+    public String execCommand(String[] commands) throws BadRequestException {
 
         return commandPattern.execute(commands);
     }

@@ -19,7 +19,6 @@ public class Client {
         System.out.println("Connected to server " + clientSocket.getRemoteSocketAddress());
         System.out.println("Write your Redis commands...");
 
-
         dis = new DataInputStream(System.in);
         dos = new DataOutputStream(clientSocket.getOutputStream());
 
@@ -35,9 +34,6 @@ public class Client {
         clientSocket.close();
     }
 
-    public static void main(String args[]) throws Exception {
-
-       new Client("127.0.0.1", 5000);
-    }
+    public static void main(String[] args) throws Exception { new Client("127.0.0.1", 5000);}
 }
 
