@@ -8,7 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-public class Server implements Runnable {
+ public class Server implements Runnable {
 
     private ServerSocket serverSocket;
     private Thread thread;
